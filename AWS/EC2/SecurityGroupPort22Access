@@ -1,0 +1,37 @@
+{
+  "name": "EC2 Security Group with Port 22",
+  "description": "Check the IpPermissions From Port",
+  "service": "EC2",
+  "resourceType": "ec2-securitygroup",
+  "remediationNotes": "If this is broken, please follow these steps:\n1. Step one \n2. Step two\n",
+  "severity": "MEDIUM",
+  "provider": "aws",
+  "categories": [
+    "performance-efficiency",
+    "security"
+  ],
+  "enabled": true,
+  "attributes": [
+    {
+      "name": "securityGroupIpPermissionsFromPort",
+      "path": "data.IpPermissions[*].FromPort",
+      "required": false
+    }
+  ],
+  "rules": [
+    {
+      "conditions": {
+        "all": [
+          {
+            "value": 22,
+            "operator": "contains",
+            "fact": "securityGroupIpPermissionsFromPort"
+          }
+        ]
+      },
+      "event": {
+        "type": "securityGroupIpPermissionsFromPort"
+      }
+    }
+  ]
+}
