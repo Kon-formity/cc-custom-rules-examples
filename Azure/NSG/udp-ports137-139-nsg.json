@@ -1,0 +1,178 @@
+{
+    "name": "Unrestricted inbound access via UDP on Port 137,138,139",
+    "description": "dummy data checks",
+    "service": "Network",
+    "resourceType": "network-network-security-groups",
+    "severity": "HIGH",
+    "provider": "azure",
+    "enabled": true,
+    "categories": [
+        "security"
+    ],
+    "attributes": [
+        {
+            "name": "securityRules",
+            "path": "data.securityRules",
+            "required": false
+        },
+        {
+            "name": "securityInboundDestinationPortRange",
+            "path": "data.securityRules[?((@.protocol=='UDP' || @.protocol=='*') && @.direction=='Inbound')].destinationPortRange",
+            "required": false
+        },
+        {
+            "name": "securityInboundDestinationPortRanges",
+            "path": "data.securityRules[?((@.protocol=='UDP' || @.protocol=='*') && @.direction=='Inbound')].destinationPortRanges",
+            "required": false
+        }
+    ],
+    "rules": [
+        {
+            "conditions": {
+                "any": [
+                    {
+                        "value": 0,
+                        "operator": "equal",
+                        "fact": "securityRules",
+                        "path": "$.length"
+                    },
+                    {
+                        "all": [
+                            {
+                                "path": "$.[?(@.protocol)].protocol",
+                                "fact": "securityRules",
+                                "value": "UDP",
+                                "operator": "doesNotContain"
+                            },
+                            {
+                                "path": "$.[?(@.protocol)].protocol",
+                                "fact": "securityRules",
+                                "value": "*",
+                                "operator": "doesNotContain"
+                            }
+                        ]
+                    },
+                    {
+                        "path": "$.[?(@.direction)].direction",
+                        "fact": "securityRules",
+                        "value": "Inbound",
+                        "operator": "doesNotContain"
+                    },
+                    {
+                        "all": [
+                            {
+                                "value": "UDP",
+                                "operator": "doesNotContain",
+                                "fact": "securityRules",
+                                "path": "$.[?(@.direction=='Inbound')].protocol"
+                            },
+                            {
+                                "value": "*",
+                                "operator": "doesNotContain",
+                                "fact": "securityRules",
+                                "path": "$.[?(@.direction=='Inbound')].protocol"
+                            }
+                        ]
+                    },
+                    {
+                        "any": [
+                            {
+                                "all": [
+                                    {
+                                        "path": "$.length",
+                                        "value": "1",
+                                        "operator": "lessThan",
+                                        "fact": "securityInboundDestinationPortRanges"
+                                    },
+                                    {
+                                        "value": "137",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "138",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "139",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "137-138",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "137-139",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "138-139",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "*",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    }
+                                ]
+                            },
+                            {
+                                "all": [
+                                    {
+                                        "path": "$.length",
+                                        "value": "0",
+                                        "operator": "greaterThan",
+                                        "fact": "securityInboundDestinationPortRanges"
+                                    },
+                                    {
+                                        "value": "137",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "138",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "139",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "137-138",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "137-139",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "138-139",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    },
+                                    {
+                                        "value": "*",
+                                        "operator": "doesNotContain",
+                                        "fact": "securityInboundDestinationPortRange"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "event": {
+                "type": "Public access check, UDP, PORTS, and something else"
+            }
+        }
+    ]
+}
