@@ -1,0 +1,224 @@
+{
+    "configuration": {
+        "name": "Unrestricted inbound access to Azure security group",
+        "description": "Condition for rule failure: NSG inbound has any rule with “any” source AND “any” Destination marked",
+        "service": "Network",
+        "resourceType": "network-network-security-groups",
+        "severity": "HIGH",
+        "provider": "azure",
+        "enabled": true,
+        "categories": [
+            "security"
+        ],
+        "attributes": [
+            {
+                "name": "securityRules",
+                "path": "data.securityRules",
+                "required": false
+            },
+            {
+                "name": "inboundRuleSourceAllDestinationPrefix",
+                "path": "data.securityRules[?(@.direction=='Inbound' && @.sourceAddressPrefix=='*')].destinationAddressPrefix",
+                "required": false
+            }
+        ],
+        "rules": [
+            {
+                "conditions": {
+                    "any": [
+                        {
+                            "value": 0,
+                            "operator": "equal",
+                            "fact": "securityRules",
+                            "path": "$.length",
+                            "comment": "if there are no security rules, automatic success"
+                        },
+                        {
+                            "path": "$.[?(@.direction)].direction",
+                            "fact": "securityRules",
+                            "value": "Inbound",
+                            "operator": "doesNotContain",
+                            "comment": "if there are no Inbound security rules, automatic success"
+                        },
+                        {
+                            "fact": "inboundRuleSourceAllDestinationPrefix",
+                            "value": "*",
+                            "operator": "doesNotContain",
+                            "comment": "Of the security rules with source '*', none should have destination '*'"
+                        }
+                    ]
+                },
+                "event": {
+                    "type": "NSG should contain no rules with both source '*' and destination '*'"
+                }
+            }
+        ]
+    },
+    "resource": {
+        "accountId": "sdjcbsdkjc",
+        "organisationId": "sdkjcnkjsd",
+        "resourceId": "/subscriptions/skjdcnkjsd-e2c4-4336-b3d6-skdcnbkjsd/resourceGroups/konrad-testing-rg/providers/Microsoft.Network/networkSecurityGroups/sdbckjsdkjc",
+        "service": "Network",
+        "ccrn": "ccrn:azure:lskcnlksd",
+        "region": "eastus",
+        "descriptorType": "network-network-security-groups",
+        "data": {
+            "resourceId": "/subscriptions/skjdcnkjsd-e2c4-4336-b3d6-skdcnbkjsd/resourceGroups/konrad-testing-rg/providers/Microsoft.Network/networkSecurityGroups/sdbckjsdkjc",
+            "Tags": [],
+            "id": "/subscriptions/skjdcnkjsd-e2c4-4336-b3d6-skdcnbkjsd/resourceGroups/konrad-testing-rg/providers/Microsoft.Network/networkSecurityGroups/sdbckjsdkjc",
+            "name": "sdbckjsdkjc",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "location": "eastus",
+            "tags": {},
+            "securityRules": [
+                {
+                    "id": "sdcsdc",
+                    "protocol": "UDP",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "137",
+                    "sourceAddressPrefixes": [
+                        "123",
+                        "765"
+                    ],
+                    "destinationAddressPrefixes": [
+                        "123",
+                        "765"
+                    ],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 130,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "AnyAnyAny"
+                },
+                {
+                    "id": "sdckns",
+                    "protocol": "UDP",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefixes": [
+                        "10.0.0.0",
+                        "10.0.0.1"
+                    ],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137",
+                        "138",
+                        "139",
+                        "140"
+                    ],
+                    "access": "Allow",
+                    "priority": 110,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "test-443-inbound"
+                },
+                {
+                    "id": "089sdn2",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "VirtualNetwork",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137-140",
+                        "142-150"
+                    ],
+                    "access": "Allow",
+                    "priority": 100,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "test-VN"
+                },
+                {
+                    "id": "9nclsdk",
+                    "protocol": "TCP",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137",
+                        "138"
+                    ],
+                    "access": "Allow",
+                    "priority": 140,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "Netbio1"
+                },
+                {
+                    "id": "823hfd",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "120-140",
+                    "sourceAddressPrefix": "123",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 120,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "Range"
+                },
+                {
+                    "id": "vejie9",
+                    "protocol": "UDP",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "123",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137",
+                        "138-139",
+                        "140-150"
+                    ],
+                    "access": "Allow",
+                    "priority": 150,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "139"
+                },
+                {
+                    "id": "eveioee",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "8080",
+                    "sourceAddressPrefix": "123",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 170,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "test-inbound-rule"
+                }
+            ],
+            "resourceGuid": "ercpoper",
+            "provisioningState": "Succeeded",
+            "etag": "W/\"5evlekr\""
+        },
+        "name": "Network Security Group",
+        "link": "https://erfoneovkev",
+        "linkTitle": "efvkevkeve",
+        "attributeErrors": [],
+        "provider": "azure",
+        "portalDomain": "portal.azure.com",
+        "lastModifiedDate": 1644214065212,
+        "lastModifiedBy": "SYSTEM"
+    }
+}
