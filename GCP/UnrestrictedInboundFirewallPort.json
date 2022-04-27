@@ -60,7 +60,7 @@
         "organisationId": "12345234-6789-6789-6789-2345ce557890",
         "resourceId": "1234123412349999234",
         "service": "CloudVPC",
-        "ccrn": "ccrn:gcp:933d8cc1-6e13-475c-922a-c196ce55ce62:CloudVPC:global:1234123412349999234",
+        "ccrn": "ccrn:gcp:933d1234-1234-1234-1234-1234ce55ce62:CloudVPC:global:1234123412349999234",
         "region": "global",
         "descriptorType": "cloudvpc-firewallrules",
         "data": {
