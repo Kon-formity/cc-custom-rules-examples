@@ -1,0 +1,39 @@
+{
+    "configuration": {
+        "name": "get resource data",
+        "description": "get resource data",
+        "resourceId": "<INSERT RESOURCE ID",
+        "service": "<INSERT SERVICE NAME",
+        "resourceType": "<INSERT DESCRIPTOR TYPE VALUE",
+        "severity": "LOW",
+        "enabled": true,
+        "provider": "<SELECT from: aws azure gcp>",
+        "categories": [
+            "security"
+        ],
+        "remediationNotes": "Check if resource exists",
+        "attributes": [
+            {
+                "name": "exists",
+                "path": "resourceId",
+                "required": true
+            }
+        ],
+        "rules": [
+            {
+                "conditions": {
+                    "all": [
+                        {
+                            "fact": "exists",
+                            "operator": "notEqual",
+                            "value": null
+                        }
+                    ]
+                },
+                "event": {
+                    "type": "Resource exists"
+                }
+            }
+        ]
+    }
+}
