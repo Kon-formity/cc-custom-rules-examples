@@ -1,0 +1,36 @@
+{
+    "name": "NSG Flow Logs enabled",
+    "description": "Check if an Azure Network Security Group has Flow Logs enabled",
+    "service": "Network",
+    "resourceType": "network-network-security-groups",
+    "severity": "LOW",
+    "enabled": true,
+    "provider": "azure",
+    "categories": [
+        "security"
+    ],
+    "remediationNotes": "Enabled NSG flow logs via the Azure Portal and select an appropriate data store",
+    "attributes": [
+        {
+            "name": "flowLogsEnabled",
+            "path": "data.flowLogs.enabled",
+            "required": true
+        }
+    ],
+    "rules": [
+        {
+            "conditions": {
+                "all": [
+                    {
+                        "fact": "flowLogsEnabled",
+                        "operator": "equal",
+                        "value": true
+                    }
+                ]
+            },
+            "event": {
+                "type": "Check if NSG flow logs are enabled"
+            }
+        }
+    ]
+}
