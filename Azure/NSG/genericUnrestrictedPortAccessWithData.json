@@ -1,0 +1,422 @@
+{
+    "configuration": {
+        "name": "Unrestricted inbound access via UDP on Port XXXX",
+        "description": "This is a generic rule for checking port ranges on unrestricted inbound access. Update 'XXXX' and this descritpion to suit",
+        "service": "Network",
+        "resourceType": "network-network-security-groups",
+        "severity": "HIGH",
+        "provider": "azure",
+        "enabled": true,
+        "categories": [
+            "security"
+        ],
+        "attributes": [
+            {
+                "comment": "Matches singular port range field where security rule is inbound and unrestricted.",
+                "name": "singleUnrestrictedInboundPortRange",
+                "path": "data.securityRules[?((@.sourceAddressPrefix=='*' || @.sourceAddressPrefix=='0.0.0.0/0') && @.direction=='Inbound')].destinationPortRange",
+                "required": false
+            },
+            {
+                "comment": "Matches multiple port ranges array where security rule is inbound and unrestricted. Required due to the nature of Azure data.",
+                "name": "multipleUnrestrictedInboundPortRanges",
+                "path": "data.securityRules[?((@.sourceAddressPrefix=='*' || @.sourceAddressPrefix=='0.0.0.0/0') && @.direction=='Inbound')].destinationPortRanges[*]",
+                "required": false
+            }
+        ],
+        "rules": [
+            {
+                "conditions": {
+                    "all": [
+                        {
+                            "value": "*",
+                            "operator": "doesNotContain",
+                            "fact": "singleUnrestrictedInboundPortRange"
+                        },
+                        {
+                            "value": "*",
+                            "operator": "doesNotContain",
+                            "fact": "multipleUnrestrictedInboundPortRanges"
+                        },
+                        {
+                            "value": "XXXX",
+                            "operator": "doesNotContain",
+                            "fact": "singleUnrestrictedInboundPortRange"
+                        },
+                        {
+                            "value": "XXXX",
+                            "operator": "doesNotContain",
+                            "fact": "multipleUnrestrictedInboundPortRanges"
+                        }
+                    ]
+                },
+                "event": {
+                    "type": "Checking Unrestricted access to specific ports"
+                }
+            }
+        ]
+    },
+    "resource": {
+        "accountId": "af0e44f3-1234-1234-1234-591c5163a0b4",
+        "organisationId": "287345873216487",
+        "resourceId": "/subscriptions/yyyyy",
+        "service": "Network",
+        "ccrn": "ccrn:azure:yyyyy",
+        "region": "eastus",
+        "descriptorType": "network-network-security-groups",
+        "data": {
+            "resourceId": "/subscriptions/yyyyy",
+            "Tags": [],
+            "networkWatcher": {
+                "id": "/subscriptions/yyyyy",
+                "name": "NetworkWatcher_eastus",
+                "type": "Microsoft.Network/networkWatchers",
+                "location": "eastus",
+                "etag": "W/\"yyyyy\"",
+                "provisioningState": "Succeeded"
+            },
+            "flowLogs": {
+                "targetResourceId": "/subscriptions/yyyyy",
+                "storageId": "",
+                "enabled": false,
+                "retentionPolicy": {
+                    "days": 0,
+                    "enabled": false
+                },
+                "flowAnalyticsConfiguration": {}
+            },
+            "id": "/subscriptions/yyyyy",
+            "name": "yyyyy",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "location": "eastus",
+            "tags": {},
+            "securityRules": [
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/test-443-inbound",
+                    "protocol": "UDP",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefixes": [
+                        "10.0.0.0",
+                        "10.0.0.1"
+                    ],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137",
+                        "138",
+                        "139",
+                        "140",
+                        "80"
+                    ],
+                    "access": "Allow",
+                    "priority": 110,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "test-443-inbound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/test-VN",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "VirtualNetwork",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137-140",
+                        "142-150",
+                        "80"
+                    ],
+                    "access": "Allow",
+                    "priority": 100,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "test-VN",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/AnyAnyAny",
+                    "protocol": "UDP",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "137",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 130,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "AnyAnyAny",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/Netbio1",
+                    "protocol": "TCP",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137",
+                        "138"
+                    ],
+                    "access": "Allow",
+                    "priority": 140,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "Netbio1",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/Range",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "120-140",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 120,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "Range",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/139",
+                    "protocol": "UDP",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "137",
+                        "138-139",
+                        "140-150"
+                    ],
+                    "access": "Allow",
+                    "priority": 150,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "139",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/test-inbound-rule",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "0.0.0.0/0",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "0.0.0.0/0",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "8080",
+                        "123"
+                    ],
+                    "access": "Allow",
+                    "priority": 170,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "test-inbound-rule",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/RDP",
+                    "protocol": "TCP",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "3389",
+                    "sourceAddressPrefixes": [
+                        "114.123.123.123",
+                        "222.123.123.123"
+                    ],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 180,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "RDP",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/securityRules/Port_8080_2",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [
+                        "8080",
+                        "123"
+                    ],
+                    "access": "Allow",
+                    "priority": 190,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "Port_8080_2",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+                }
+            ],
+            "defaultSecurityRules": [
+                {
+                    "id": "/subscriptions/yyyyy/defaultSecurityRules/AllowVnetInBound",
+                    "description": "Allow inbound traffic from all VMs in VNET",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "VirtualNetwork",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "VirtualNetwork",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 65000,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "AllowVnetInBound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/defaultSecurityRules/AllowAzureLoadBalancerInBound",
+                    "description": "Allow inbound traffic from azure load balancer",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "AzureLoadBalancer",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 65001,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "AllowAzureLoadBalancerInBound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/defaultSecurityRules/DenyAllInBound",
+                    "description": "Deny all inbound traffic",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Deny",
+                    "priority": 65500,
+                    "direction": "Inbound",
+                    "provisioningState": "Succeeded",
+                    "name": "DenyAllInBound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/defaultSecurityRules/AllowVnetOutBound",
+                    "description": "Allow outbound traffic from all VMs to all VMs in VNET",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "VirtualNetwork",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "VirtualNetwork",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 65000,
+                    "direction": "Outbound",
+                    "provisioningState": "Succeeded",
+                    "name": "AllowVnetOutBound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/defaultSecurityRules/AllowInternetOutBound",
+                    "description": "Allow outbound traffic from all VMs to Internet",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "Internet",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Allow",
+                    "priority": 65001,
+                    "direction": "Outbound",
+                    "provisioningState": "Succeeded",
+                    "name": "AllowInternetOutBound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules"
+                },
+                {
+                    "id": "/subscriptions/yyyyy/defaultSecurityRules/DenyAllOutBound",
+                    "description": "Deny all outbound traffic",
+                    "protocol": "*",
+                    "sourcePortRange": "*",
+                    "destinationPortRange": "*",
+                    "sourceAddressPrefix": "*",
+                    "sourceAddressPrefixes": [],
+                    "destinationAddressPrefix": "*",
+                    "destinationAddressPrefixes": [],
+                    "sourcePortRanges": [],
+                    "destinationPortRanges": [],
+                    "access": "Deny",
+                    "priority": 65500,
+                    "direction": "Outbound",
+                    "provisioningState": "Succeeded",
+                    "name": "DenyAllOutBound",
+                    "etag": "W/\"1234-1234\"",
+                    "type": "Microsoft.Network/networkSecurityGroups/defaultSecurityRules"
+                }
+            ],
+            "resourceGuid": "1234-1234",
+            "provisioningState": "Succeeded",
+            "etag": "W/\"1234-1234\""
+        },
+        "name": "Network Security Group",
+        "link": "https://portal.azure.com/#resource//subscriptions/yyyyy",
+        "linkTitle": "yyyyy",
+        "attributeErrors": [],
+        "provider": "azure",
+        "portalDomain": "portal.azure.com",
+        "lastModifiedDate": 1651014947533,
+        "lastModifiedBy": "SYSTEM"
+    }
+}
