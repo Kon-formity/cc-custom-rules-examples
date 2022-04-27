@@ -1,0 +1,57 @@
+{
+    "name": "Unrestricted inbound access via UDP on Port XXXX",
+    "description": "This is a generic rule for checking port ranges on unrestricted inbound access. Update 'XXXX' and this descritpion to suit",
+    "service": "Network",
+    "resourceType": "network-network-security-groups",
+    "severity": "HIGH",
+    "provider": "azure",
+    "enabled": true,
+    "categories": [
+        "security"
+    ],
+    "attributes": [
+        {
+            "comment": "Matches singular port range field where security rule is inbound and unrestricted.",
+            "name": "singleUnrestrictedInboundPortRange",
+            "path": "data.securityRules[?((@.sourceAddressPrefix=='*' || @.sourceAddressPrefix=='0.0.0.0/0') && @.direction=='Inbound')].destinationPortRange",
+            "required": false
+        },
+        {
+            "comment": "Matches multiple port ranges array where security rule is inbound and unrestricted. Required due to the nature of Azure data.",
+            "name": "multipleUnrestrictedInboundPortRanges",
+            "path": "data.securityRules[?((@.sourceAddressPrefix=='*' || @.sourceAddressPrefix=='0.0.0.0/0') && @.direction=='Inbound')].destinationPortRanges[*]",
+            "required": false
+        }
+    ],
+    "rules": [
+        {
+            "conditions": {
+                "all": [
+                    {
+                        "value": "*",
+                        "operator": "doesNotContain",
+                        "fact": "singleUnrestrictedInboundPortRange"
+                    },
+                    {
+                        "value": "*",
+                        "operator": "doesNotContain",
+                        "fact": "multipleUnrestrictedInboundPortRanges"
+                    },
+                    {
+                        "value": "XXXX",
+                        "operator": "doesNotContain",
+                        "fact": "singleUnrestrictedInboundPortRange"
+                    },
+                    {
+                        "value": "XXXX",
+                        "operator": "doesNotContain",
+                        "fact": "multipleUnrestrictedInboundPortRanges"
+                    }
+                ]
+            },
+            "event": {
+                "type": "Checking Unrestricted access to specific ports"
+            }
+        }
+    ]
+}
