@@ -1,37 +1,36 @@
 {
-  "name": "EC2 Security Group with Port 22",
-  "description": "Check the IpPermissions From Port",
-  "service": "EC2",
-  "resourceType": "ec2-securitygroup",
-  "remediationNotes": "If this is broken, please follow these steps:\n1. Step one \n2. Step two\n",
-  "severity": "MEDIUM",
-  "provider": "aws",
-  "categories": [
-    "performance-efficiency",
-    "security"
-  ],
-  "enabled": true,
-  "attributes": [
-    {
-      "name": "securityGroupIpPermissionsFromPort",
-      "path": "data.IpPermissions[*].FromPort",
-      "required": false
-    }
-  ],
-  "rules": [
-    {
-      "conditions": {
-        "all": [
-          {
-            "value": 22,
-            "operator": "contains",
-            "fact": "securityGroupIpPermissionsFromPort"
-          }
-        ]
-      },
-      "event": {
-        "type": "securityGroupIpPermissionsFromPort"
-      }
-    }
-  ]
+    "name": "Unrestricted Access to Port 22 (SSH)",
+    "description": "Checks for unrestricted access to SSH Port",
+    "service": "EC2",
+    "resourceType": "ec2-securitygroup",
+    "severity": "LOW",
+    "enabled": true,
+    "provider": "aws",
+    "categories": [
+        "security"
+    ],
+    "remediationNotes": "Check if resource exists",
+    "attributes": [
+        {
+            "name": "port22ipRanges",
+            "path": "data.IpPermissions[?(@.FromPort<='22' && @.ToPort>='22')].IpRanges[*].CidrIp",
+            "required": true
+        }
+    ],
+    "rules": [
+        {
+            "conditions": {
+                "all": [
+                    {
+                        "fact": "port22ipRanges",
+                        "operator": "notEqual",
+                        "value": "0.0.0.0/0"
+                    }
+                ]
+            },
+            "event": {
+                "type": "Unrestricted access to port 22"
+            }
+        }
+    ]
 }
