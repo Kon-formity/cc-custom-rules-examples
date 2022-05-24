@@ -33,17 +33,17 @@
                 "any": [
                     {
                         "fact": "sourceRanges",
-                        "operator": "contains",
+                        "operator": "doesNotContain",
                         "value": "0.0.0.0/0"
                     },
                     {
                         "fact": "allowedPorts",
-                        "operator": "contains",
+                        "operator": "doesNotContain",
                         "value": "XXXX"
                     },
                     {
                         "fact": "direction",
-                        "operator": "equal",
+                        "operator": "notEqual",
                         "value": "INGRESS"
                     }                            
                 ]
